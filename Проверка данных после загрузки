@@ -1,0 +1,39 @@
+Проверка данных после загрузки
+SELECT COUNT(*) FROM Customers;
+SELECT COUNT(*) FROM Loans;
+SELECT COUNT(*) FROM Transactions;
+
+Проверка на пропуски
+SELECT COUNT(*) 
+FROM Loans
+WHERE Loan_Amount IS NULL;
+
+Проверка на дубликаты
+
+SELECT Customer_ID, COUNT(*)
+FROM Customers
+GROUP BY Customer_ID
+HAVING COUNT(*) > 1;
+
+2. Очистка данных (Data Cleaning)
+удалить или обработать пропуски;
+убрать дубликаты;
+проверить отрицательные суммы кредитов или транзакций.
+
+DELETE FROM Loans
+WHERE Loan_ID IS NULL;
+
+3. Исследовательский анализ (EDA)
+
+Посмотреть общую картину:
+
+Средний кредит:
+
+SELECT AVG(Loan_Amount)
+FROM Loans;
+
+Select max(Loan_Amount)
+from Loans;
+
+ 
+
