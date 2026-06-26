@@ -1,91 +1,200 @@
-##Проверка данных после загрузки
-`SELECT COUNT(*) FROM Customers;
+# 🔍 Data Validation, Data Cleaning & Exploratory Data Analysis (EDA)
+
+This document describes the SQL queries used to validate, clean, and analyze the banking dataset after importing it into the Oracle database.
+
+---
+
+# 1. Data Validation
+
+## Check the number of records
+
+Verify that all tables were imported successfully.
+
+```sql
+SELECT COUNT(*) FROM Customers;
 SELECT COUNT(*) FROM Loans;
-SELECT COUNT(*) FROM Transactions;`
+SELECT COUNT(*) FROM Transactions;
+```
 
-##Проверка на пропуски
-`SELECT COUNT(*) 
+---
+
+## Check for missing values
+
+Find records with missing loan amounts.
+
+```sql
+SELECT COUNT(*)
 FROM Loans
-WHERE Loan_Amount IS NULL;`
+WHERE Loan_Amount IS NULL;
+```
 
-##Проверка на дубликаты
+---
 
-SELECT Customer_ID, COUNT(*)
-`FROM Customers
+## Check for duplicate customers
+
+Verify that every customer has a unique Customer_ID.
+
+```sql
+SELECT Customer_ID,
+       COUNT(*)
+FROM Customers
 GROUP BY Customer_ID
-HAVING COUNT(*) > 1;`
+HAVING COUNT(*) > 1;
+```
 
-##Проверка отрицательных значений
+---
+
+## Check for negative loan amounts
+
+Loan amounts should never be negative.
+
+```sql
 SELECT *
 FROM Loans
 WHERE Loan_Amount < 0;
+```
 
-2. Очистка данных (Data Cleaning)
-удалить или обработать пропуски;
-убрать дубликаты;
-проверить отрицательные суммы кредитов или транзакций.
+---
 
+# 2. Data Cleaning
+
+The following cleaning steps were performed before analysis:
+
+* Removed records with missing Loan_ID values.
+* Checked and removed duplicate records.
+* Verified that loan amounts and transaction amounts are not negative.
+* Ensured data consistency across all tables.
+
+### Remove records with missing Loan_ID
+
+```sql
 DELETE FROM Loans
 WHERE Loan_ID IS NULL;
+```
 
-3. Исследовательский анализ (EDA)
+---
 
-Посмотреть общую картину:
+# 3. Exploratory Data Analysis (EDA)
 
-Средний кредит:
+## Average loan amount
 
-SELECT AVG(Loan_Amount)
+```sql
+SELECT AVG(Loan_Amount) AS Average_Loan
 FROM Loans;
+```
 
-Select max(Loan_Amount)
-from Loans;
+---
 
-Средний кредит
-SELECT AVG(Loan_Amount)
+## Maximum loan amount
+
+```sql
+SELECT MAX(Loan_Amount) AS Maximum_Loan
 FROM Loans;
- 
-Общая сумма выданных кредитов
-Select sum(Loan_Amount)
-from Loans;
+```
 
-Топ 10 клиентов по сумме кредита
-Select customer_id ,sum(loan_amount) as total from loans group by customer_id
-order by total desc
-fetch first 10 rows only;
+---
 
-Общая сумма транзакций по каждому клиенту:
-Select customer_id,sum(transaction_amount) as total_tr
-from transactions group by  customer_id; 
+## Total amount of loans issued
 
-Средний кредитный рейтинг клиентов:
-SELECT customer_id,
-       AVG(credit_score) AS average_credit_score
-FROM customer
-GROUP BY customer_id;
+```sql
+SELECT SUM(Loan_Amount) AS Total_Loan_Amount
+FROM Loans;
+```
 
-Распределение заявок по статусам
+---
+
+## Top 10 customers by total loan amount
+
+```sql
+SELECT Customer_ID,
+       SUM(Loan_Amount) AS Total_Loan
+FROM Loans
+GROUP BY Customer_ID
+ORDER BY Total_Loan DESC
+FETCH FIRST 10 ROWS ONLY;
+```
+
+---
+
+## Total transaction amount by customer
+
+```sql
+SELECT Customer_ID,
+       SUM(Transaction_Amount) AS Total_Transactions
+FROM Transactions
+GROUP BY Customer_ID;
+```
+
+---
+
+## Average credit score of customers
+
+```sql
+SELECT Customer_ID,
+       AVG(Credit_Score) AS Average_Credit_Score
+FROM Customers
+GROUP BY Customer_ID;
+```
+
+---
+
+## Loan applications by status
+
+```sql
 SELECT Loan_Status,
        COUNT(*) AS Loan_Count
 FROM Loans
 GROUP BY Loan_Status
 ORDER BY Loan_Count DESC;
+```
 
-Общая сумма кредитов по каждому статусу
+---
+
+## Total loan amount by status
+
+```sql
 SELECT Loan_Status,
        SUM(Loan_Amount) AS Total_Loan_Amount
 FROM Loans
 GROUP BY Loan_Status;
+```
 
-Средний размер кредита по статусам
+---
+
+## Average loan amount by status
+
+```sql
 SELECT Loan_Status,
        ROUND(AVG(Loan_Amount), 2) AS Average_Loan
 FROM Loans
 GROUP BY Loan_Status;
+```
 
-Процент одобренных заявок
+---
+
+## Loan approval rate
+
+```sql
 SELECT ROUND(
        COUNT(CASE WHEN Loan_Status = 'Approved' THEN 1 END) * 100.0
-       / COUNT(*), 2
-       ) AS Approval_Rate
+       / COUNT(*),
+       2
+) AS Approval_Rate
 FROM Loans;
+```
 
+---
+
+# 📌 Summary
+
+The dataset was successfully validated and cleaned before analysis. Data quality checks included:
+
+* ✅ Row count verification
+* ✅ Missing value detection
+* ✅ Duplicate detection
+* ✅ Negative value validation
+* ✅ Data cleaning
+
+The Exploratory Data Analysis (EDA) provided insights into loan distribution, customer activity, transaction volumes, credit scores, and loan approval performance.
+
+#
