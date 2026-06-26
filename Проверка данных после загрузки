@@ -1,21 +1,21 @@
-Проверка данных после загрузки
-SELECT COUNT(*) FROM Customers;
+##Проверка данных после загрузки
+`SELECT COUNT(*) FROM Customers;
 SELECT COUNT(*) FROM Loans;
-SELECT COUNT(*) FROM Transactions;
+SELECT COUNT(*) FROM Transactions;`
 
-Проверка на пропуски
+##Проверка на пропуски
 SELECT COUNT(*) 
 FROM Loans
 WHERE Loan_Amount IS NULL;
 
-Проверка на дубликаты
+##Проверка на дубликаты
 
 SELECT Customer_ID, COUNT(*)
 FROM Customers
 GROUP BY Customer_ID
 HAVING COUNT(*) > 1;
 
-Проверка отрицательных значений
+##Проверка отрицательных значений
 SELECT *
 FROM Loans
 WHERE Loan_Amount < 0;
