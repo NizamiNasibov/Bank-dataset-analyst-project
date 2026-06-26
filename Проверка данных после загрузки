@@ -15,6 +15,11 @@ FROM Customers
 GROUP BY Customer_ID
 HAVING COUNT(*) > 1;
 
+Проверка отрицательных значений
+SELECT *
+FROM Loans
+WHERE Loan_Amount < 0;
+
 2. Очистка данных (Data Cleaning)
 удалить или обработать пропуски;
 убрать дубликаты;
@@ -35,5 +40,52 @@ FROM Loans;
 Select max(Loan_Amount)
 from Loans;
 
+Средний кредит
+SELECT AVG(Loan_Amount)
+FROM Loans;
  
+Общая сумма выданных кредитов
+Select sum(Loan_Amount)
+from Loans;
+
+Топ 10 клиентов по сумме кредита
+Select customer_id ,sum(loan_amount) as total from loans group by customer_id
+order by total desc
+fetch first 10 rows only;
+
+Общая сумма транзакций по каждому клиенту:
+Select customer_id,sum(transaction_amount) as total_tr
+from transactions group by  customer_id; 
+
+Средний кредитный рейтинг клиентов:
+SELECT customer_id,
+       AVG(credit_score) AS average_credit_score
+FROM customer
+GROUP BY customer_id;
+
+Распределение заявок по статусам
+SELECT Loan_Status,
+       COUNT(*) AS Loan_Count
+FROM Loans
+GROUP BY Loan_Status
+ORDER BY Loan_Count DESC;
+
+Общая сумма кредитов по каждому статусу
+SELECT Loan_Status,
+       SUM(Loan_Amount) AS Total_Loan_Amount
+FROM Loans
+GROUP BY Loan_Status;
+
+Средний размер кредита по статусам
+SELECT Loan_Status,
+       ROUND(AVG(Loan_Amount), 2) AS Average_Loan
+FROM Loans
+GROUP BY Loan_Status;
+
+Процент одобренных заявок
+SELECT ROUND(
+       COUNT(CASE WHEN Loan_Status = 'Approved' THEN 1 END) * 100.0
+       / COUNT(*), 2
+       ) AS Approval_Rate
+FROM Loans;
 
