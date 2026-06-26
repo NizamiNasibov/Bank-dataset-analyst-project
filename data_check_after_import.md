@@ -4,16 +4,16 @@ SELECT COUNT(*) FROM Loans;
 SELECT COUNT(*) FROM Transactions;`
 
 ##Проверка на пропуски
-SELECT COUNT(*) 
+`SELECT COUNT(*) 
 FROM Loans
-WHERE Loan_Amount IS NULL;
+WHERE Loan_Amount IS NULL;`
 
 ##Проверка на дубликаты
 
 SELECT Customer_ID, COUNT(*)
-FROM Customers
+`FROM Customers
 GROUP BY Customer_ID
-HAVING COUNT(*) > 1;
+HAVING COUNT(*) > 1;`
 
 ##Проверка отрицательных значений
 SELECT *
