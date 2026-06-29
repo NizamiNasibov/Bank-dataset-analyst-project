@@ -1,4 +1,5 @@
-1. Top 10 Customers by Total Transaction Amount:
+### 1. Top 10 Customers by Total Transaction Amount:
+```sql
 SELECT
     Customer_ID,
     SUM(Transaction_Amount) AS Total_Transactions
@@ -6,15 +7,18 @@ FROM Transactions
 GROUP BY Customer_ID
 ORDER BY Total_Transactions DESC
 FETCH FIRST 10 ROWS ONLY;
-
-2. Rank Customers by Total Transaction Amount
+```
+### 2. Rank Customers by Total Transaction Amount
+```sql
 SELECT
     Customer_ID,
     SUM(Transaction_Amount) AS Total_Transactions,
     RANK() OVER(ORDER BY SUM(Transaction_Amount) DESC) AS Customer_Rank
 FROM Transactions
 GROUP BY Customer_ID;
-4. Running Total of Transactions
+```
+### 3. Running Total of Transactions
+```sql
 SELECT
     Customer_ID,
     Transaction_Date,
@@ -24,7 +28,9 @@ SELECT
         ORDER BY Transaction_Date
     ) AS Running_Total
 FROM Transactions;
-5. Average Transaction Amount per Customer
+```
+### 4. Average Transaction Amount per Customer
+``` sql
 SELECT
     Customer_ID,
     Transaction_Date,
@@ -33,7 +39,9 @@ SELECT
         PARTITION BY Customer_ID
     ) AS Average_Transaction
 FROM Transactions;
-6. Largest Transaction of Each Customer
+```
+### 6. Largest Transaction of Each Customer
+```sql
 SELECT *
 FROM (
     SELECT
@@ -47,7 +55,9 @@ FROM (
     FROM Transactions
 )
 WHERE rn = 1;
-7. Customer Credit Risk Classification
+```
+### 6. Customer Credit Risk Classification
+```sql
 SELECT
     Customer_ID,
     Credit_Score,
@@ -57,7 +67,9 @@ SELECT
         ELSE 'High Risk'
     END AS Risk_Level
 FROM Customers;
-8. Loan Approval Statistics
+```
+### 8. Loan Approval Statistics
+```sql
 SELECT
     Loan_Status,
     COUNT(*) AS Total_Loans,
@@ -68,7 +80,9 @@ SELECT
     ) AS Percentage
 FROM Loans
 GROUP BY Loan_Status;
-9. Customers Without Loans
+````
+### 9. Customers Without Loans
+```sql
 SELECT
     c.Customer_ID,
     c.Customer_Name
@@ -84,19 +98,25 @@ FROM Customers c
 LEFT JOIN Transactions t
 ON c.Customer_ID = t.Customer_ID
 WHERE t.Customer_ID IS NULL;
-11. Total Loan Amount per Customer
+```
+### 10. Total Loan Amount per Customer
+``` sql
 SELECT
     Customer_ID,
     SUM(Loan_Amount) AS Total_Loan
 FROM Loans
 GROUP BY Customer_ID;
-12. Average Loan Amount by Status
+```
+### 11. Average Loan Amount by Status
+```sql
 SELECT
     Loan_Status,
     ROUND(AVG(Loan_Amount),2) AS Average_Loan
 FROM Loans
 GROUP BY Loan_Status;
-13. Customer Share of Total Transaction Volume
+```
+### 13. Customer Share of Total Transaction Volume
+``` sql
 SELECT
     Customer_ID,
     SUM(Transaction_Amount) AS Total_Amount,
@@ -107,7 +127,9 @@ SELECT
     ) AS Share_Percentage
 FROM Transactions
 GROUP BY Customer_ID;
-14. Branch Performance
+```
+### 13. Branch Performance
+```sql 
 SELECT
     c.Branch,
     COUNT(DISTINCT c.Customer_ID) AS Customers,
@@ -117,7 +139,9 @@ FROM Customers c
 JOIN Transactions t
 ON c.Customer_ID = t.Customer_ID
 GROUP BY c.Branch;
-15. Detect Large Transactions
+```
+### 15. Detect Large Transactions
+```sql
 SELECT
     Transaction_ID,
     Customer_ID,
@@ -128,14 +152,18 @@ WHERE Transaction_Amount >
     SELECT AVG(Transaction_Amount) * 2
     FROM Transactions
 );
-16. Monthly Transaction Volume
+```
+### 16. Monthly Transaction Volume
+```sql
 SELECT
     TO_CHAR(Transaction_Date,'YYYY-MM') AS Month,
     SUM(Transaction_Amount) AS Total_Transactions
 FROM Transactions
 GROUP BY TO_CHAR(Transaction_Date,'YYYY-MM')
 ORDER BY Month;
-17. Customer Income Segmentation
+```
+### 17. Customer Income Segmentation
+```sql 
 SELECT
     Customer_ID,
     Customer_Name,
@@ -146,7 +174,9 @@ SELECT
         ELSE 'High Income'
     END AS Income_Group
 FROM Customers;
-18. Customer Activity Summary
+```
+### 18. Customer Activity Summary
+```sql
 SELECT
     Customer_ID,
     COUNT(*) AS Transactions_Count,
@@ -155,7 +185,9 @@ SELECT
     MAX(Transaction_Amount) AS Largest_Transaction
 FROM Transactions
 GROUP BY Customer_ID;
-19. Customers Spending Above Average (CTE)
+```
+### 19. Customers Spending Above Average (CTE)
+```sql
 WITH CustomerTotals AS (
     SELECT
         Customer_ID,
@@ -170,7 +202,9 @@ WHERE TotalSpent >
     SELECT AVG(TotalSpent)
     FROM CustomerTotals
 );
-20. Loans Above Average Amount
+```
+### 20. Loans Above Average Amount
+```sql
 SELECT
     Loan_ID,
     Customer_ID,
@@ -181,11 +215,14 @@ WHERE Loan_Amount >
     SELECT AVG(Loan_Amount)
     FROM Loans
 );
-21. Account Type Analysis
+````
+### 21. Account Type Analysis
+```sql
 SELECT
     Account_Type,
     COUNT(*) AS Customers,
     ROUND(AVG(Customer_Income),2) AS Avg_Income,
     ROUND(AVG(Credit_Score),2) AS Avg_Credit_Score
+```
 FROM Customers
 GROUP BY Account_Type;
