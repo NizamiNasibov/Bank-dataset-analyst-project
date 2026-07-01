@@ -40,7 +40,7 @@ SELECT
     ) AS Average_Transaction
 FROM Transactions;
 ```
-### 6. Largest Transaction of Each Customer
+### 5. Largest Transaction of Each Customer
 ```sql
 SELECT *
 FROM (
@@ -68,7 +68,7 @@ SELECT
     END AS Risk_Level
 FROM Customers;
 ```
-### 8. Loan Approval Statistics
+### 7. Loan Approval Statistics
 ```sql
 SELECT
     Loan_Status,
@@ -81,7 +81,7 @@ SELECT
 FROM Loans
 GROUP BY Loan_Status;
 ````
-### 9. Customers Without Loans
+### 8. Customers Without Loans
 ```sql
 SELECT
     c.Customer_ID,
@@ -90,8 +90,9 @@ FROM Customers c
 LEFT JOIN Loans l
 ON c.Customer_ID = l.Customer_ID
 WHERE l.Customer_ID IS NULL;
-10. Customers Without Transactions
-SELECT
+```
+### 9. Customers Without Transactions
+```SELECT
     c.Customer_ID,
     c.Customer_Name
 FROM Customers c
@@ -115,7 +116,7 @@ SELECT
 FROM Loans
 GROUP BY Loan_Status;
 ```
-### 13. Customer Share of Total Transaction Volume
+### 12. Customer Share of Total Transaction Volume
 ``` sql
 SELECT
     Customer_ID,
@@ -140,7 +141,7 @@ JOIN Transactions t
 ON c.Customer_ID = t.Customer_ID
 GROUP BY c.Branch;
 ```
-### 15. Detect Large Transactions
+### 14. Detect Large Transactions
 ```sql
 SELECT
     Transaction_ID,
@@ -153,7 +154,7 @@ WHERE Transaction_Amount >
     FROM Transactions
 );
 ```
-### 16. Monthly Transaction Volume
+### 15. Monthly Transaction Volume
 ```sql
 SELECT
     TO_CHAR(Transaction_Date,'YYYY-MM') AS Month,
@@ -162,7 +163,7 @@ FROM Transactions
 GROUP BY TO_CHAR(Transaction_Date,'YYYY-MM')
 ORDER BY Month;
 ```
-### 17. Customer Income Segmentation
+### 16. Customer Income Segmentation
 ```sql 
 SELECT
     Customer_ID,
@@ -175,7 +176,7 @@ SELECT
     END AS Income_Group
 FROM Customers;
 ```
-### 18. Customer Activity Summary
+### 17. Customer Activity Summary
 ```sql
 SELECT
     Customer_ID,
@@ -186,7 +187,7 @@ SELECT
 FROM Transactions
 GROUP BY Customer_ID;
 ```
-### 19. Customers Spending Above Average (CTE)
+### 18. Customers Spending Above Average (CTE)
 ```sql
 WITH CustomerTotals AS (
     SELECT
@@ -203,7 +204,7 @@ WHERE TotalSpent >
     FROM CustomerTotals
 );
 ```
-### 20. Loans Above Average Amount
+### 19. Loans Above Average Amount
 ```sql
 SELECT
     Loan_ID,
@@ -216,7 +217,7 @@ WHERE Loan_Amount >
     FROM Loans
 );
 ````
-### 21. Account Type Analysis
+### 20. Account Type Analysis
 ```sql
 SELECT
     Account_Type,
