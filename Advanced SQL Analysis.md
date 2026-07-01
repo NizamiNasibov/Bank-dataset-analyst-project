@@ -224,6 +224,9 @@ SELECT
     COUNT(*) AS Customers,
     ROUND(AVG(Customer_Income),2) AS Avg_Income,
     ROUND(AVG(Credit_Score),2) AS Avg_Credit_Score
-```
 FROM Customers
 GROUP BY Account_Type;
+```
+
+
+
